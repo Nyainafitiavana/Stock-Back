@@ -16,6 +16,7 @@ class CategoryRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.categoryController.getCategory);
+    this.router.get(`${this.path}/:id(\\d+)`, this.categoryController.findCategoryById);
     this.router.post(`${this.path}`, validationMiddleware(CreateCategoryDto, 'body'), this.categoryController.createCategory);
     this.router.put(`${this.path}/:id(\\d+)`, validationMiddleware(CreateCategoryDto, 'body', true), this.categoryController.updateCategory);
     this.router.delete(`${this.path}/:id(\\d+)`, this.categoryController.deleteCategory);

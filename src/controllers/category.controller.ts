@@ -40,6 +40,17 @@ class CategoryController {
     }
   };
 
+  public findCategoryById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const CategoryId = Number(req.params.id);
+      const findCategoryByIdData: Category = await this.categoryService.findCategoryById(CategoryId);
+
+      res.status(200).json({ data: findCategoryByIdData, message: 'findCategory data success' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
 
   public deleteCategory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
