@@ -40,6 +40,7 @@ class CategoryController {
     }
   };
 
+  
   public findCategoryById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const CategoryId = Number(req.params.id);
