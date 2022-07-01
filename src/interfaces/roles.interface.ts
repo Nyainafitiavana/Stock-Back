@@ -1,7 +1,5 @@
 /* eslint-disable prettier/prettier */
-export interface Produit {
+export interface Roles {
     id: number;
     designation: string;
-    prix: number;
 }
-  
