@@ -24,17 +24,17 @@ class ProduitService extends Repository<ProduitEntity> {
     return findProduit;
   }
 
-  public async createProduit(produitData: CreateProduitDto): Promise<Produit> {
+  public async createProduit(produitData: CreateProduitDto): Promise<Stock> {
     if (isEmpty(produitData)) throw new HttpException(400, "You're not produit");
     try {
       const produitResponse: Produit = await ProduitEntity.create({ ...produitData }).save();
       const objectInsert: Stock = {
         // id: 1,
-        quantite: 45,
+        quantite: 0,
         produit: produitResponse
       };
       const stockResponse: Stock = await StockEntity.create({ ...objectInsert }).save();
-      return produitResponse;
+      return stockResponse;
     } catch (e) {
       throw (e)
     }
