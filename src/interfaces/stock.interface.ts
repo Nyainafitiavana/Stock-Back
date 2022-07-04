@@ -3,7 +3,7 @@ import { Produit } from '@/interfaces/produits.interface';
 
 /* eslint-disable prettier/prettier */
 export interface Stock {
-    id: number;
+    id?: number;
     quantite: number;
     produit: Produit;
 }
