@@ -17,10 +17,21 @@ class ProduitController {
     }
   };
 
+  public getProduit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const ProduitId = Number(req.params.id);
+      const findProduct: Produit = await this.produitService.findProduitById(ProduitId);
+
+      res.status(200).json({ data: findProduct, message: 'findCategory data success' });
+
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public createProduit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const produitData: CreateProduitDto = req.body;
-      console.log(produitData);
       const createProdData: Produit = await this.produitService.createProduit(produitData);
 
       res.status(201).json({ data: createProdData, message: 'created' });
