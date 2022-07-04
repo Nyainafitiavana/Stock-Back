@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Double, ManyToOne } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 
 import { Produit } from '@/interfaces/produits.interface';
 import { CategoryEntity } from './category.entity';
+import { StockEntity } from './stock.entity';
 
 @Entity()
 export class ProduitEntity extends BaseEntity implements Produit {
@@ -19,4 +20,8 @@ export class ProduitEntity extends BaseEntity implements Produit {
 
   @ManyToOne(() => CategoryEntity, (category: CategoryEntity) => category.produits)
   public category: CategoryEntity;
+
+  @OneToMany(() => StockEntity, (stock: StockEntity) => stock.produit)
+  public stock: StockEntity[];
+
 }
