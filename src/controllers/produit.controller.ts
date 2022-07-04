@@ -23,7 +23,6 @@ class ProduitController {
       const findProduct: Produit = await this.produitService.findProduitById(ProduitId);
 
       res.status(200).json({ data: findProduct, message: 'findCategory data success' });
-
     } catch (error) {
       next(error);
     }

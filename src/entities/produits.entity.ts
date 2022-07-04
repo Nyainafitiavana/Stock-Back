@@ -23,5 +23,4 @@ export class ProduitEntity extends BaseEntity implements Produit {
 
   @OneToMany(() => StockEntity, (stock: StockEntity) => stock.produit)
   public stock: StockEntity[];
-
 }
