@@ -7,7 +7,7 @@ import { CreateProduitDto } from '@/dtos/produits.dto';
 class ProduitController {
   public produitService = new produitService();
 
-  public getProduit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getAllProduit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const findAllProduitsData: Produit[] = await this.produitService.findAllProduit();
 
