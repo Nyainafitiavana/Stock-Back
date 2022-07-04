@@ -9,7 +9,7 @@ import { isEmpty } from '@utils/util';
 @EntityRepository()
 class ProduitService extends Repository<ProduitEntity> {
   public async findAllProduit(): Promise<Produit[]> {
-    const prods: Produit[] = await ProduitEntity.find();
+    const prods: Produit[] = await ProduitEntity.find({relations: ['category']});
     return prods;
   }
 
@@ -24,10 +24,15 @@ class ProduitService extends Repository<ProduitEntity> {
 
   public async createProduit(produitData: CreateProduitDto): Promise<Produit> {
     if (isEmpty(produitData)) throw new HttpException(400, "You're not produit");
+    try{
+      const produitResponse: Produit = await ProduitEntity.create({ ...produitData }).save();
+      return produitResponse;
+    }catch(e) {
+      throw (e)
+    }
+    
 
-    const produitResponse: Produit = await ProduitEntity.create({ ...produitData }).save();
-
-    return produitResponse;
+    
   }
 
   public async updateProduit(produitId: number, produitData: CreateProduitDto): Promise<Produit> {

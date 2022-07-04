@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 import { Category } from '@/interfaces/category.interface';
+import { ProduitEntity } from './produits.entity';
 
 @Entity()
 export class CategoryEntity extends BaseEntity implements Category {
@@ -13,4 +14,6 @@ export class CategoryEntity extends BaseEntity implements Category {
   @Column()
   designation: string;
 
+  @OneToMany(() => ProduitEntity, (produit: ProduitEntity) => produit.category)
+  public produits: ProduitEntity[];
 }

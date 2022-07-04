@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsObject } from 'class-validator';
+import { Category } from '@/interfaces/category.interface';
 
 export class CreateProduitDto {
   @IsString()
@@ -7,4 +8,7 @@ export class CreateProduitDto {
 
   @IsNumber()
   public prix: number;
+
+  @IsObject()
+  public category: Category;
 }

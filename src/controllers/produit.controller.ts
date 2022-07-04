@@ -20,6 +20,7 @@ class ProduitController {
   public createProduit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const produitData: CreateProduitDto = req.body;
+      console.log(produitData);
       const createProdData: Produit = await this.produitService.createProduit(produitData);
 
       res.status(201).json({ data: createProdData, message: 'created' });
