@@ -1,6 +1,7 @@
 import { IsNotEmpty } from 'class-validator';
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { User } from '@interfaces/users.interface';
+import { RoleEntity } from './roles.entity';
 
 @Entity()
 export class UserEntity extends BaseEntity implements User {
@@ -23,4 +24,16 @@ export class UserEntity extends BaseEntity implements User {
   @Column()
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column()
+  userName: string;
+
+  @Column()
+  telephone: string;
+
+  @Column()
+  adresse: string;
+
+  @ManyToOne(() => RoleEntity, (role: RoleEntity) => role.user)
+  public role: RoleEntity;
 }
