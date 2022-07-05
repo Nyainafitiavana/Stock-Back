@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { NextFunction, Request, Response } from 'express';
 import StockService from '../services/stock.service';
 import { Stock } from '@/interfaces/stock.interface';

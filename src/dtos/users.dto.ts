@@ -1,4 +1,6 @@
-import { IsEmail, IsString } from 'class-validator';
+/* eslint-disable prettier/prettier */
+import { IsEmail, IsObject, IsString } from 'class-validator';
+import { Roles } from '../interfaces/roles.interface';
 
 export class CreateUserDto {
   @IsEmail()
@@ -6,4 +8,16 @@ export class CreateUserDto {
 
   @IsString()
   public password: string;
+
+  @IsString()
+  public userName: string;
+
+  @IsString()
+  public telephone: string;
+
+  @IsString()
+  public adresse: string;
+
+  @IsObject()
+  public role: Roles;
 }
