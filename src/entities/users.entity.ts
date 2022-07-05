@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IsNotEmpty } from 'class-validator';
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { User } from '@interfaces/users.interface';

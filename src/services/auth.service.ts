@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { compare, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { EntityRepository, Repository } from 'typeorm';

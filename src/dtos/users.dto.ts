@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IsEmail, IsObject, IsString } from 'class-validator';
 import { Roles } from '../interfaces/roles.interface';
 
