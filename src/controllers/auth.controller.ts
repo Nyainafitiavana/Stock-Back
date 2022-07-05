@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { NextFunction, Request, Response } from 'express';
 import { CreateUserDto } from '@dtos/users.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
