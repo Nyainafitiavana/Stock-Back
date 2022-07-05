@@ -8,6 +8,7 @@ import ProduitRoute from './routes/produits.route';
 import CategoryRoute from './routes/category.route';
 import RoleRoute from './routes/roles.route';
 import StockRoute from './routes/stock.route';
+import TypeMouvementRoute from './routes/typeMouvement.route';
 
 validateEnv();
 
@@ -19,6 +20,7 @@ const app = new App([
     new CategoryRoute,
     new RoleRoute,
     new StockRoute,
+    new TypeMouvementRoute(),
 ]);
 
 app.listen();
