@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Router } from 'express';
 import AuthController from '@controllers/auth.controller';
 import { CreateUserDto, CreateLoginDto } from '@dtos/users.dto';
