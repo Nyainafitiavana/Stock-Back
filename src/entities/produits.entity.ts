@@ -6,6 +6,10 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMan
 import { Produit } from '@/interfaces/produits.interface';
 import { CategoryEntity } from './category.entity';
 import { StockEntity } from './stock.entity';
+import { DetailMouvementEntity } from './detailMouvement.entity';
+// import { DetailMouvementEntity } from './detailMouvement.entity';
+// import { StockEntity } from './stock.entity';
+// import { DetailMouvementEntity } from './detailMouvement.entity';
 
 @Entity()
 export class ProduitEntity extends BaseEntity implements Produit {
@@ -23,4 +27,7 @@ export class ProduitEntity extends BaseEntity implements Produit {
 
   @OneToMany(() => StockEntity, (stock: StockEntity) => stock.produit)
   public stock: StockEntity[];
+
+  @OneToMany(() => DetailMouvementEntity, (detailMouvements :DetailMouvementEntity ) => detailMouvements.produit)
+  public detailMouvements: DetailMouvementEntity[];
 }

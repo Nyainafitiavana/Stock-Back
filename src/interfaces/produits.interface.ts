@@ -6,6 +6,6 @@ export interface Produit {
     id: number;
     designation: string;
     prix: number;
-    category: Category;
+    category?: Category;
 }
   

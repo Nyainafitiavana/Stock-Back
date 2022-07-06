@@ -9,6 +9,7 @@ import CategoryRoute from './routes/category.route';
 import RoleRoute from './routes/roles.route';
 import StockRoute from './routes/stock.route';
 import TypeMouvementRoute from './routes/typeMouvement.route';
+import MouvementRoute from './routes/mouvement.route';
 
 validateEnv();
 
@@ -21,6 +22,7 @@ const app = new App([
     new RoleRoute,
     new StockRoute,
     new TypeMouvementRoute(),
+    new MouvementRoute(),
 ]);
 
 app.listen();

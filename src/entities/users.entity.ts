@@ -1,8 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { IsNotEmpty } from 'class-validator';
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '@interfaces/users.interface';
 import { RoleEntity } from './roles.entity';
+import { MouvementEntity } from './mouvement.entity';
+// import { RoleEntity } from './roles.entity';
+// import { MouvementEntity } from './mouvement.entity';
 
 @Entity()
 export class UserEntity extends BaseEntity implements User {
@@ -37,4 +40,7 @@ export class UserEntity extends BaseEntity implements User {
 
   @ManyToOne(() => RoleEntity, (role: RoleEntity) => role.user)
   public role: RoleEntity;
+
+  @OneToMany(() => MouvementEntity, (mouvement: MouvementEntity) => mouvement.user)
+  public mouvement: MouvementEntity[];
 }
