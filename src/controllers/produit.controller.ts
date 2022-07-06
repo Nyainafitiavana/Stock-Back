@@ -3,10 +3,6 @@ import { NextFunction, Request, Response } from 'express';
 import { Produit } from '@interfaces/produits.interface';
 import produitService from '@services/produits.service';
 import { CreateProduitDto } from '@/dtos/produits.dto';
-import { SECRET_KEY } from '@config';
-import { verify } from 'jsonwebtoken';
-import { DataStoredInToken } from '@/interfaces/auth.interface';
-import { UserEntity } from '@/entities/users.entity';
 
 class ProduitController {
   public produitService = new produitService();
@@ -15,7 +11,7 @@ class ProduitController {
     try {
       const findAllProduitsData: Produit[] = await this.produitService.findAllProduit();
       res.status(200).json({ data: findAllProduitsData, message: 'findAll' });
-      
+
     } catch (error) {
       next(error);
     }
