@@ -4,6 +4,7 @@ import { Routes } from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
 import TypeMouvementController from '../controllers/typeMouvement.controller';
 import { TypeMouvementDto } from '../dtos/typeMouvement.dto';
+import securityMiddleware from '../middlewares/securityToken.middleware';
 
 
 class TypeMouvementRoute implements Routes {
@@ -16,11 +17,11 @@ class TypeMouvementRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, this.typeMouvementController.getTypeMouvement);
-    this.router.get(`${this.path}/:id(\\d+)`, this.typeMouvementController.findTypeMouvementById);
-    this.router.post(`${this.path}`, validationMiddleware(TypeMouvementDto, 'body'), this.typeMouvementController.createTypeMouvement);
-    this.router.put(`${this.path}/:id(\\d+)`, validationMiddleware(TypeMouvementDto, 'body', true), this.typeMouvementController.updateTypeMouvement);
-    this.router.delete(`${this.path}/:id(\\d+)`, this.typeMouvementController.deleteTypeMouvement);
+    this.router.get(`${this.path}`, securityMiddleware, this.typeMouvementController.getTypeMouvement);
+    this.router.get(`${this.path}/:id(\\d+)`, securityMiddleware, this.typeMouvementController.findTypeMouvementById);
+    this.router.post(`${this.path}`, securityMiddleware, validationMiddleware(TypeMouvementDto, 'body'), this.typeMouvementController.createTypeMouvement);
+    this.router.put(`${this.path}/:id(\\d+)`, securityMiddleware, validationMiddleware(TypeMouvementDto, 'body', true), this.typeMouvementController.updateTypeMouvement);
+    this.router.delete(`${this.path}/:id(\\d+)`, securityMiddleware, this.typeMouvementController.deleteTypeMouvement);
   }
 }
 
