@@ -10,8 +10,8 @@ class ProduitController {
   public getAllProduit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const findAllProduitsData: Produit[] = await this.produitService.findAllProduit();
-
       res.status(200).json({ data: findAllProduitsData, message: 'findAll' });
+
     } catch (error) {
       next(error);
     }
@@ -34,6 +34,7 @@ class ProduitController {
       const createProdData: Produit = await this.produitService.createProduit(produitData);
 
       res.status(201).json({ data: createProdData, message: 'created' });
+      
     } catch (error) {
       next(error);
     }

@@ -21,3 +21,12 @@ export class CreateUserDto {
   @IsObject()
   public role: Roles;
 }
+
+export class CreateLoginDto {
+  @IsEmail()
+  public email: string;
+
+  @IsString()
+  public password: string;
+
+}
