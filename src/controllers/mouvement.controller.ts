@@ -106,7 +106,18 @@ class MouvementController {
     }
   };
 
+  public getMouvementByDate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const dateDebut = new Date(req.params.dateDebut); 
+      const dateFin = new Date(req.params.dateFin);
+      const value = req.params.value;
+      const findMouvementsData: Mouvement[] = await this.mouvementService.findMouvementByDate();
 
+      res.status(200).json({ data: findMouvementsData, message: 'findAll mouvement by date' });
+    } catch (error) {
+      next(error);
+    }
+  };
 
 }
 

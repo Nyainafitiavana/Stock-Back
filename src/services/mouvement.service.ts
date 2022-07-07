@@ -65,5 +65,16 @@ class MouvementService extends Repository<MouvementEntity> {
     await MouvementEntity.delete({ id: mvtId });
     return findMouvement;
   }
+
+  public async findMouvementByDate(): Promise<Mouvement[]> {
+    const value = "a";
+    const findMouvementByDate: Mouvement[] = await MouvementEntity.createQueryBuilder('qb')
+                                                                   .where('qb.createdAt < :dateDb', {dateDb: new Date()})
+                                                                   .andWhere('qb.motif like :q', { q: `%${value}%` })
+                                                                   .getMany();
+    if (!findMouvementByDate) throw new HttpException(409, "You're not mouvement");
+
+    return findMouvementByDate;
+  }
 }
 export default MouvementService;
