@@ -8,6 +8,12 @@ import { CreateDetailMouvementDto } from '../dtos/detailMouvement.dto';
 import { Produit } from '../interfaces/produits.interface';
 import ProduitService from '@/services/produits.service';
 import DetailmouvementService from '../services/detailMouvement.service';
+import { CreateLoginDto, CreateUserDto } from '@/dtos/users.dto';
+import { DataStoredInToken, RequestWithUser } from '@/interfaces/auth.interface';
+import { SECRET_KEY } from '@/config';
+import { verify } from 'jsonwebtoken';
+import { UserEntity } from '@/entities/users.entity';
+import { User } from '@/interfaces/users.interface';
 
 class MouvementController {
     public mouvementService = new MouvementService();
@@ -34,11 +40,23 @@ class MouvementController {
       next(error);
     }
   };
-
+  
   public createMouvement = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const mouvementData: CreateMouvementDto = req.body;
+      //get user connected
+      const Authorization = req.cookies['Authorization'] || (req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null);
+      const secretKey: string = SECRET_KEY;
+      const { id } = (await verify(Authorization, secretKey)) as DataStoredInToken;
+      const findUser = await UserEntity.findOne(id, { select: ['id', 'email', 'password'] });
+      //create new object 
+      const object: any = {
+        user: findUser,
+        motif: req.body.motif,
+        typeMouvement: req.body.typeMouvement,
+        detailMouvement: req.body.detailMouvement
+      };
 
+      const mouvementData: CreateMouvementDto = object;
       const createmouvementData: Mouvement = await this.mouvementService.createMouvement(mouvementData);
       const detail: any = mouvementData.detailMouvement;
 
