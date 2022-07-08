@@ -3,10 +3,12 @@ import { NextFunction, Request, Response } from 'express';
 import StockService from '../services/stock.service';
 import { Stock } from '@/interfaces/stock.interface';
 import { CreatestockDto } from '../dtos/stock.dto';
+import SeuilSecurityService from '@/services/seuilSecurity.service';
+import { seuilSecurity } from '@/interfaces/seuilSecurity.interface';
 
 class StockController {
   public stockService = new StockService();
-
+  public seuilSecurityService = new SeuilSecurityService
   public getAllStock = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const findAllStockData: Stock[] = await this.stockService.findAllStock();
@@ -30,8 +32,8 @@ class StockController {
 
   public getSeuilStock = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const stockSeuil = 50;
-      const findStock: Stock[] = await this.stockService.findStockProduitSeuil(stockSeuil);
+      const stockSeuil: seuilSecurity = await this.seuilSecurityService.findSeuilById();
+      const findStock: Stock[] = await this.stockService.findStockProduitSeuil(stockSeuil.seuil);
 
 
       res.status(200).json({ data: findStock, message: 'findStock data success' });
