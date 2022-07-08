@@ -8,7 +8,7 @@ import securityMiddleware from '../middlewares/securityToken.middleware';
 import authMiddleware from '@middlewares/auth.middleware';
 
 class CategoryRoute implements Routes {
-  public path = '/category';
+  public path = '/api/category';
   public router = Router();
   public categoryController = new CategoryController();
 

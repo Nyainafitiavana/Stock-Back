@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Router } from 'express';
 import UsersController from '@controllers/users.controller';
 import { CreateUserDto } from '@dtos/users.dto';
@@ -6,7 +7,7 @@ import validationMiddleware from '@middlewares/validation.middleware';
 import securityMiddleware from '../middlewares/securityToken.middleware';
 
 class UsersRoute implements Routes {
-  public path = '/users';
+  public path = '/api/users';
   public router = Router();
   public usersController = new UsersController();
 

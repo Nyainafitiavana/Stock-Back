@@ -7,7 +7,7 @@ import { CreateRolesDto } from '@/dtos/roles.dto';
 import securityMiddleware from '../middlewares/securityToken.middleware';
 
 class RoleRoute implements Routes {
-  public path = '/role';
+  public path = '/api/role';
   public router = Router();
   public roleController = new RolesController();
 
