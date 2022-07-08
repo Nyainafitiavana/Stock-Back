@@ -22,18 +22,15 @@ class StockService extends Repository<StockEntity> {
     return findStock;
   }
   
-  public async findSeuil(stockSeuil: number): Promise<Stock> {
-    if (isEmpty(stockSeuil)) throw new HttpException(400, 'seuil invalide');
+  public async findStockProduitSeuil(seuil: number): Promise<Stock[]> {
+    const getResult: Stock[] = await StockEntity.createQueryBuilder('stock')
+                                                .innerJoinAndSelect('stock.produit', 'produit'
+                                                )
+                                                .where('stock.quantite <= :sl', {sl: seuil})
+                                                .getMany();
+    if (!getResult) throw new HttpException(409, "You're not stocks below the threshold");
 
-    // const findStockSeuil = await dataSource
-    // .getRepository(User)
-    // .createQueryBuilder("user")
-    // .where("user.id = :id", { id: 1 })
-    // .getOne()
-
-    if (!findStock) throw new HttpException(409, "You're not produit");
-
-    return findStock;
+    return getResult;
   }
 
   public async createStock(stockData: CreatestockDto): Promise<Stock> {
