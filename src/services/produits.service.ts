@@ -10,8 +10,8 @@ import { StockEntity } from '@/entities/stock.entity';
 
 @EntityRepository()
 class ProduitService extends Repository<ProduitEntity> {
-  public async findAllProduit(): Promise<Produit[]> {
-    const prods: Produit[] = await ProduitEntity.find({ relations: ['category'] });
+  public async findAllProduit(Take: number, Skip: number): Promise<Produit[]> {
+    const prods: Produit[] = await ProduitEntity.find({ relations: ['category'], order:{'id':'ASC'}, take: Take, skip: Skip });
     return prods;
   }
 

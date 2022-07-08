@@ -9,8 +9,22 @@ class ProduitController {
 
   public getAllProduit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllProduitsData: Produit[] = await this.produitService.findAllProduit();
-      res.status(200).json({ data: findAllProduitsData, message: 'findAll' });
+      const request = req.query;
+      const page = +request.page;
+      const take = +request.limite;
+      const skip = take * (page - 1)
+
+      const findAllProduitsDataNoLimit: Produit[] = await this.produitService.findAllProduit(take, skip);
+      const totalRows = findAllProduitsDataNoLimit.length;
+      const findAllProduitsData: Produit[] = await this.produitService.findAllProduit(take, skip);
+      const rows: any = {
+          datas: findAllProduitsData,
+          totalRows: totalRows,
+          limite: take,
+          page: page
+      };
+
+      res.status(200).json({rows, message: 'findAll' });
 
     } catch (error) {
       next(error);
