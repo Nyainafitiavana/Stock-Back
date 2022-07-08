@@ -28,6 +28,18 @@ class StockController {
     }
   };
 
+  public getSeuilStock = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const stockSeuil = 50;
+      const findStock: Stock = await this.stockService.findSeuil(stockSeuil);
+
+
+      res.status(200).json({ data: findStock, message: 'findStock data success' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public createStock = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const stockData: CreatestockDto = req.body;

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { EntityRepository, Repository } from 'typeorm';
 import { StockEntity } from '../entities/stock.entity';
 import { Stock } from '../interfaces/stock.interface';
@@ -12,19 +13,24 @@ class StockService extends Repository<StockEntity> {
     return stocks;
   }
 
-  //   public async findProduitById(produitId: number): Promise<Produit> {
-  //     if (isEmpty(produitId)) throw new HttpException(400, "You're not produitId");
-
-  //     const findProduit: Produit = await ProduitEntity.findOne({ where: { id: produitId }, relations: ['category'] });
-  //     if (!findProduit) throw new HttpException(409, "You're not produit");
-
-  //     return findProduit;
-  //   }
-
   public async findStockById(stockId: number): Promise<Stock> {
     if (isEmpty(stockId)) throw new HttpException(400, 'stock id not found');
 
     const findStock: Stock = await StockEntity.findOne({ where: { id: stockId }, relations: ['produit'] });
+    if (!findStock) throw new HttpException(409, "You're not produit");
+
+    return findStock;
+  }
+  
+  public async findSeuil(stockSeuil: number): Promise<Stock> {
+    if (isEmpty(stockSeuil)) throw new HttpException(400, 'seuil invalide');
+
+    // const findStockSeuil = await dataSource
+    // .getRepository(User)
+    // .createQueryBuilder("user")
+    // .where("user.id = :id", { id: 1 })
+    // .getOne()
+
     if (!findStock) throw new HttpException(409, "You're not produit");
 
     return findStock;
