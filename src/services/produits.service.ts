@@ -62,6 +62,8 @@ class ProduitService extends Repository<ProduitEntity> {
     if (isEmpty(produitId)) throw new HttpException(400, "produitId not found");
 
     const findProduit: Produit = await ProduitEntity.findOne({ where: { id: produitId } });
+    console.log(findProduit);
+    
     if (!findProduit) throw new HttpException(409, "produitId not found");
 
     await ProduitEntity.delete({ id: produitId });

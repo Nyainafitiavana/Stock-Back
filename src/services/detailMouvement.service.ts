@@ -6,6 +6,7 @@ import { HttpException } from '../exceptions/HttpException';
 import { DetailMouvement } from '../interfaces/detailMouvement.interface';
 import { DetailMouvementEntity } from '../entities/detailMouvement.entity';
 import { CreateDetailMouvementDto } from '../dtos/detailMouvement.dto';
+import { join } from 'path';
 
 @EntityRepository()
 class DetailmouvementService extends Repository<DetailMouvementEntity> {
@@ -63,6 +64,36 @@ class DetailmouvementService extends Repository<DetailMouvementEntity> {
 
     await DetailMouvementEntity.delete({ id: detailmvtId });
     return findDetailMouvement;
+  }
+
+  public async findMouvementByDay(date :Date, limit: number, offset: number): Promise<DetailMouvement[]> {
+    const value = "a";
+    const findMouvementByDate: DetailMouvement[] = await DetailMouvementEntity.createQueryBuilder('qb')
+                                                                   .innerJoinAndSelect('qb.mouvement','mouvement')
+                                                                   .where('mouvement.createdAt = :dateJour', {dateJour: date})
+                                                                   .andWhere('mouvement.motif like :q', { q: `%${value}%` })
+                                                                   .skip(offset)
+                                                                   .take(limit)
+                                                                   .getMany();
+    if (!findMouvementByDate) throw new HttpException(409, "You're not mouvement");
+
+    return findMouvementByDate;
+  }
+
+  // quatité des produits vendu par jour
+  public async findQuantityProductByDay(): Promise<DetailMouvement[]> {
+    const findQtProductByDate: DetailMouvement[] = await DetailMouvementEntity.createQueryBuilder('qb')
+                                                                   .leftJoin('qb.mouvement','mouvement')
+                                                                   .select("mouvement.createdAt","date")
+                                                                   .addSelect("SUM(qb.quantite)", "quantite")
+                                                                   .where('mouvement.typeMouvement=1')
+                                                                   .groupBy("date")
+                                                                   .orderBy('date','DESC')
+                                                                   .limit(5)
+                                                                   .getRawMany()
+    if (!findQtProductByDate) throw new HttpException(409, "You're not mouvement");
+
+    return findQtProductByDate;
   }
 }
 export default DetailmouvementService;
