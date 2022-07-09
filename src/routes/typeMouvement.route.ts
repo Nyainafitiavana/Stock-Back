@@ -9,7 +9,7 @@ import authMiddleware from '@/middlewares/auth.middleware';
 
 
 class TypeMouvementRoute implements Routes {
-  public path = '/typeMouvement';
+  public path = '/api/typeMouvement';
   public router = Router();
   public typeMouvementController = new TypeMouvementController();
 

@@ -8,7 +8,7 @@ import authMiddleware from '@/middlewares/auth.middleware';
 import securityMiddleware from '@/middlewares/securityToken.middleware';
 
 class MouvementRoute implements Routes {
-  public path = '/mouvements';
+  public path = '/api/mouvements';
   public router = Router();
   public mouvementController = new MouvementController();
 

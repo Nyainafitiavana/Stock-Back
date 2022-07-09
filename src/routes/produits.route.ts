@@ -8,7 +8,7 @@ import securityMiddleware from '../middlewares/securityToken.middleware';
 import authMiddleware from '@middlewares/auth.middleware';
 
 class ProduitRoute implements Routes {
-  public path = '/produits';
+  public path = '/api/produits';
   public router = Router();
   public produitController = new ProduitController();
 

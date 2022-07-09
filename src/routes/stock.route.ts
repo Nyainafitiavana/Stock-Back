@@ -7,7 +7,7 @@ import validationMiddleware from '../middlewares/validation.middleware';
 import securityMiddleware from '../middlewares/securityToken.middleware';
 
 class StockRoute implements Routes {
-  public path = '/stocks';
+  public path = '/api';
   public router = Router();
   public routeController = new StockController();
 
@@ -16,9 +16,10 @@ class StockRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, securityMiddleware, this.routeController.getAllStock);
-     this.router.get(`${this.path}/:id(\\d+)`, securityMiddleware, this.routeController.getStock);
-     this.router.post(`${this.path}`, securityMiddleware, validationMiddleware(CreatestockDto, 'body'), this.routeController.createStock);
+    this.router.get(`${this.path}/stocks`, securityMiddleware, this.routeController.getAllStock);
+     this.router.get(`${this.path}/stocks/:id(\\d+)`, securityMiddleware, this.routeController.getStock);
+     this.router.get(`${this.path}/stocks-rupture`, securityMiddleware, this.routeController.getSeuilStock);
+     this.router.post(`${this.path}/stocks`, securityMiddleware, validationMiddleware(CreatestockDto, 'body'), this.routeController.createStock);
      
   }
 }

@@ -11,6 +11,7 @@ import StockRoute from './routes/stock.route';
 import TypeMouvementRoute from './routes/typeMouvement.route';
 import MouvementRoute from './routes/mouvement.route';
 import DetailMouvementRoute from './routes/detailMouvement.rout';
+import SeuilSecurityRoute from './routes/seuilSecurity.route';
 
 validateEnv();
 
@@ -18,13 +19,14 @@ const app = new App([
     new IndexRoute(), 
     new UsersRoute(), 
     new AuthRoute(), 
-    new ProduitRoute, 
-    new CategoryRoute,
-    new RoleRoute,
-    new StockRoute,
+    new ProduitRoute(), 
+    new CategoryRoute(),
+    new RoleRoute(),
+    new StockRoute(),
     new TypeMouvementRoute(),
     new MouvementRoute(),
     new DetailMouvementRoute(),
+    new SeuilSecurityRoute()
 ]);
 
 app.listen();

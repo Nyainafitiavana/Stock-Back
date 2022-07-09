@@ -7,7 +7,7 @@ import authMiddleware from '@middlewares/auth.middleware';
 import validationMiddleware from '@middlewares/validation.middleware';
 import securityMiddleware from '../middlewares/securityToken.middleware';
 class AuthRoute implements Routes {
-  public path = '/';
+  public path = '/api/';
   public router = Router();
   public authController = new AuthController();
 

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { EntityRepository, Repository } from 'typeorm';
 import { StockEntity } from '../entities/stock.entity';
 import { Stock } from '../interfaces/stock.interface';
@@ -12,15 +13,6 @@ class StockService extends Repository<StockEntity> {
     return stocks;
   }
 
-  //   public async findProduitById(produitId: number): Promise<Produit> {
-  //     if (isEmpty(produitId)) throw new HttpException(400, "You're not produitId");
-
-  //     const findProduit: Produit = await ProduitEntity.findOne({ where: { id: produitId }, relations: ['category'] });
-  //     if (!findProduit) throw new HttpException(409, "You're not produit");
-
-  //     return findProduit;
-  //   }
-
   public async findStockById(stockId: number): Promise<Stock> {
     if (isEmpty(stockId)) throw new HttpException(400, 'stock id not found');
 
@@ -28,6 +20,17 @@ class StockService extends Repository<StockEntity> {
     if (!findStock) throw new HttpException(409, "You're not produit");
 
     return findStock;
+  }
+  
+  public async findStockProduitSeuil(seuil: number): Promise<Stock[]> {
+    const getResult: Stock[] = await StockEntity.createQueryBuilder('stock')
+                                                .innerJoinAndSelect('stock.produit', 'produit'
+                                                )
+                                                .where('stock.quantite <= :sl', {sl: seuil})
+                                                .getMany();
+    if (!getResult) throw new HttpException(409, "You're not stocks below the threshold");
+
+    return getResult;
   }
 
   public async createStock(stockData: CreatestockDto): Promise<Stock> {
