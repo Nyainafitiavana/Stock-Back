@@ -14,11 +14,18 @@ import { SECRET_KEY } from '@/config';
 import { verify } from 'jsonwebtoken';
 import { UserEntity } from '@/entities/users.entity';
 import { User } from '@/interfaces/users.interface';
+import { TypeMouvement } from '@/interfaces/typeMouvement.interface';
+import { TypeMouvementEntity } from '../entities/typeMouvement.entity';
+import { Stock } from '@/interfaces/stock.interface';
+import StockService from '@/services/stock.service';
+import { StockEntity } from '@/entities/stock.entity';
+import { CreatestockDto } from '@/dtos/stock.dto';
 
 class MouvementController {
     public mouvementService = new MouvementService();
     public produitService = new ProduitService();
     public detaiService = new DetailmouvementService();
+    public stockService = new StockService();
 
   public getAllMouvement = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
@@ -48,34 +55,82 @@ class MouvementController {
       const secretKey: string = SECRET_KEY;
       const { id } = (await verify(Authorization, secretKey)) as DataStoredInToken;
       const findUser = await UserEntity.findOne(id, { select: ['id', 'email', 'password'] });
-      //create new object 
-      const object: any = {
-        user: findUser,
-        motif: req.body.motif,
-        typeMouvement: req.body.typeMouvement,
-        detailMouvement: req.body.detailMouvement
-      };
+      const motif = req.body.motif;
 
-      const mouvementData: CreateMouvementDto = object;
-      const createmouvementData: Mouvement = await this.mouvementService.createMouvement(mouvementData);
-      const detail: any = mouvementData.detailMouvement;
+      if (motif == "Vente") {
+        const typeSortie: any = await TypeMouvementEntity.findOne({id: 2});
+        const object: any = {
+          user: findUser,
+          motif: req.body.motif,
+          typeMouvement: typeSortie,
+          detailMouvement: req.body.detailMouvement
+        };
+        //create new object 
+        const mouvementData: CreateMouvementDto = object;
+        const createmouvementData: Mouvement = await this.mouvementService.createMouvement(mouvementData);
+        const detail: any = mouvementData.detailMouvement;
 
-      detail.forEach(async element => {
-        const qt: number = element.quantite;
-        const produit: Produit = await this.produitService.findProduitById(element.produit);
-        const prixTotal: number = (produit.prix) * qt;
-      
-        const detailM: CreateDetailMouvementDto = {
-          mouvement: createmouvementData,
-          quantite: qt,
-          produit: produit,
-          prixTotal: prixTotal
-        }
-        const createDetail : DetailMouvement = await this.detaiService.createDetailMouvement(detailM);
-        
-      });
+        detail.forEach(async element => {
+          const qt: number = element.quantite;
+          const produit: any = await this.produitService.findProduitById(element.produit);
+          const prixTotal: number = (produit.prix) * qt;
+          const stock: Stock = await StockEntity.findOne({produit: produit});
+          //create new stock data
+          const newStockData: CreatestockDto = {
+            quantite: (stock.quantite) - qt,
+            produit: produit
+          }
+          await this.stockService.updateStock(stock.id, newStockData);// set new quantite
+          //created detailMouvementDto
+          const detailM: CreateDetailMouvementDto = {
+            mouvement: createmouvementData,
+            quantite: qt,
+            produit: produit,
+            prixTotal: prixTotal
+          }
 
-      res.status(201).json({ data: createmouvementData, message: 'created' });
+          const createDetail : DetailMouvement = await this.detaiService.createDetailMouvement(detailM);
+        });
+
+        res.status(201).json({ data: createmouvementData, message: 'Sortie en stock success' });
+
+      }else if (motif == "EntrerStock") {
+        const typeEntrer: any = await TypeMouvementEntity.findOne({id: 1});
+        const object: any = {
+          user: findUser,
+          motif: req.body.motif,
+          typeMouvement: typeEntrer,
+          detailMouvement: req.body.detailMouvement
+        };
+        //create new object 
+        const mouvementData: CreateMouvementDto = object;
+        const createmouvementData: Mouvement = await this.mouvementService.createMouvement(mouvementData);
+        const detail: any = mouvementData.detailMouvement;
+
+        detail.forEach(async element => {
+          const qt: number = element.quantite;
+          const produit: any = await this.produitService.findProduitById(element.produit);
+          const prixTotal: number = (produit.prix) * qt;
+          const stock: Stock = await StockEntity.findOne({produit: produit});
+          //create new stock data
+          const newStockData: CreatestockDto = {
+            quantite: (stock.quantite) + qt,
+            produit: produit
+          }
+          await this.stockService.updateStock(stock.id, newStockData);// set new quantite
+          //created detailMouvementDto
+          const detailM: CreateDetailMouvementDto = {
+            mouvement: createmouvementData,
+            quantite: qt,
+            produit: produit,
+            prixTotal: prixTotal
+          }
+          
+          const createDetail : DetailMouvement = await this.detaiService.createDetailMouvement(detailM);
+        });
+
+        res.status(201).json({ data: createmouvementData, message: 'Entrer en stock success' });
+      }
     } catch (error) {
       next(error);
     }

@@ -8,13 +8,7 @@ export class CreateMouvementDto {
   @IsString()
   public motif: string;
 
-  @IsObject()
-  public user: User;
-
   @IsArray()
   public detailMouvement : DetailMouvement
-
-  @IsObject()
-  public typeMouvement: TypeMouvement;
   
 }

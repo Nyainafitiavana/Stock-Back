@@ -43,7 +43,7 @@ class StockService extends Repository<StockEntity> {
     }
   }
 
-  public async updateProduit(stockId: number, stockData: CreatestockDto): Promise<Stock> {
+  public async updateStock(stockId: number, stockData: CreatestockDto): Promise<Stock> {
     if (isEmpty(stockData)) throw new HttpException(400, 'stocktId not found');
 
     const findStock: Stock = await StockEntity.findOne({ where: { id: stockId } });
