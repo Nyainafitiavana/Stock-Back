@@ -89,7 +89,7 @@ class DetailmouvementService extends Repository<DetailMouvementEntity> {
                                                                    .where('mouvement.typeMouvement=1')
                                                                    .groupBy("date")
                                                                    .orderBy('date','DESC')
-                                                                   .limit(5)
+                                                                   .limit(7)
                                                                    .getRawMany()
     if (!findQtProductByDate) throw new HttpException(409, "You're not mouvement");
 
