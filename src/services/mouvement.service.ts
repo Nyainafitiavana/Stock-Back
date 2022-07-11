@@ -66,10 +66,10 @@ class MouvementService extends Repository<MouvementEntity> {
     return findMouvement;
   }
 
-  public async findMouvementByDate(): Promise<Mouvement[]> {
-    const value = "a";
+  public async findMouvementByDate(dateDb: string): Promise<Mouvement[]> {
+    const value = "Vente";
     const findMouvementByDate: Mouvement[] = await MouvementEntity.createQueryBuilder('qb')
-                                                                   .where('qb.createdAt < :dateDb', {dateDb: new Date()})
+                                                                   .where('qb.createdAt < :dateDb', {dateDb})
                                                                    .andWhere('qb.motif like :q', { q: `%${value}%` })
                                                                    .getMany();
     if (!findMouvementByDate) throw new HttpException(409, "You're not mouvement");
