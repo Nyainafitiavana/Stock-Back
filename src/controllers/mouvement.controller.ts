@@ -51,12 +51,18 @@ class MouvementController {
       const { id } = (await verify(Authorization, secretKey)) as DataStoredInToken;
       const findUser = await UserEntity.findOne(id, { select: ['id', 'email', 'password'] });
       const motif = req.body.motif;
-
+      const date: Date = new Date()
+      const day = ("0" + date.getDate()).slice(-2);
+      const mounth = ("0" + (date.getMonth() + 1)).slice(-2);
+      const year = date.getFullYear();
+      const combiDate:string = ""+year+"-"+mounth+"-"+day;      
+      
       if (motif == "Vente") {
         const typeSortie: any = await TypeMouvementEntity.findOne({id: 2});
         const object: any = {
           user: findUser,
           motif: req.body.motif,
+          createdAt: combiDate,
           typeMouvement: typeSortie,
           detailMouvement: req.body.detailMouvement
         };
@@ -94,6 +100,7 @@ class MouvementController {
         const object: any = {
           user: findUser,
           motif: req.body.motif,
+          createdAt: combiDate,
           typeMouvement: typeEntrer,
           detailMouvement: req.body.detailMouvement
         };

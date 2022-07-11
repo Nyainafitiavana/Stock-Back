@@ -7,7 +7,7 @@ export interface Mouvement {
     id: number;
     motif: string;
     user?: User;
-    createdAt: Date;
+    createdAt: string;
     typeMouvement?: TypeMouvement;
 }
   

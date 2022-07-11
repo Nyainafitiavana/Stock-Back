@@ -19,8 +19,7 @@ export class MouvementEntity extends BaseEntity implements Mouvement {
   motif: string;
 
   @Column()
-  @CreateDateColumn()
-  createdAt: Date;
+  createdAt: string;
 
   @ManyToOne(() => UserEntity, (user: UserEntity) => user.mouvement)
   public user: UserEntity;

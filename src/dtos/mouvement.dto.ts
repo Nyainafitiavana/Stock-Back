@@ -1,7 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsString, IsObject, IsArray } from 'class-validator';
-import { User } from '@/interfaces/users.interface';
-import { TypeMouvement } from '../interfaces/typeMouvement.interface';
+import { IsString, IsArray } from 'class-validator';
 import { DetailMouvement } from '../interfaces/detailMouvement.interface';
 
 export class CreateMouvementDto {
