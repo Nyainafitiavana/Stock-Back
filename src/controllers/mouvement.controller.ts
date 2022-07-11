@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from 'express';
 import MouvementService from '../services/mouvement.service';
 import { Mouvement } from '@/interfaces/mouvement.interface';
 import { CreateMouvementDto } from '@/dtos/mouvement.dto';
-import { DetailMouvement } from '../interfaces/detailMouvement.interface';
 import { CreateDetailMouvementDto } from '../dtos/detailMouvement.dto';
 import ProduitService from '@/services/produits.service';
 import DetailmouvementService from '../services/detailMouvement.service';
@@ -85,7 +84,7 @@ class MouvementController {
             prixTotal: prixTotal
           }
 
-          const createDetail : DetailMouvement = await this.detaiService.createDetailMouvement(detailM);
+          await this.detaiService.createDetailMouvement(detailM);
         });
 
         res.status(201).json({ data: createmouvementData, message: 'Sortie en stock success' });
@@ -122,7 +121,7 @@ class MouvementController {
             prixTotal: prixTotal
           }
           
-          const createDetail : DetailMouvement = await this.detaiService.createDetailMouvement(detailM);
+          await this.detaiService.createDetailMouvement(detailM);
         });
 
         res.status(201).json({ data: createmouvementData, message: 'Entrer en stock success' });
