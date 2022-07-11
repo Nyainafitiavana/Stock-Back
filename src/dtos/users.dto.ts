@@ -23,8 +23,11 @@ export class CreateUserDto {
 }
 
 export class CreateLoginDto {
-  @IsEmail()
-  public email: string;
+  @IsString()
+  public email?: string;
+  
+  @IsString()
+  public userName?: string;
 
   @IsString()
   public password: string;
