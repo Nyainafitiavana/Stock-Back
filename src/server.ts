@@ -10,6 +10,7 @@ import RoleRoute from './routes/roles.route';
 import StockRoute from './routes/stock.route';
 import TypeMouvementRoute from './routes/typeMouvement.route';
 import MouvementRoute from './routes/mouvement.route';
+import DetailMouvementRoute from './routes/detailMouvement.rout';
 import SeuilSecurityRoute from './routes/seuilSecurity.route';
 
 validateEnv();
@@ -24,6 +25,7 @@ const app = new App([
     new StockRoute(),
     new TypeMouvementRoute(),
     new MouvementRoute(),
+    new DetailMouvementRoute(),
     new SeuilSecurityRoute()
 ]);
 
