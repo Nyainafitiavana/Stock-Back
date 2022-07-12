@@ -6,7 +6,7 @@ import securityMiddleware from '@/middlewares/securityToken.middleware';
 import DetailMouvementController from '../controllers/detailMouvement.controller';
 
 class DetailMouvementRoute implements Routes {
-  public path = '/detailMouvements';
+  public path = '/api/detail-mouvements';
   public router = Router();
   public detailMouvementController = new DetailMouvementController();
 
@@ -17,6 +17,7 @@ class DetailMouvementRoute implements Routes {
   private initializeRoutes() {
     this.router.get(`${this.path}`, authMiddleware, this.detailMouvementController.getAllDetail);
     this.router.get(`${this.path}/quantiteParJour`, securityMiddleware, this.detailMouvementController.getQuantityProductByDay);
+    this.router.get(`${this.path}/:id(\\d+)`,authMiddleware, this.detailMouvementController.getDetailById);
   }
 }
 

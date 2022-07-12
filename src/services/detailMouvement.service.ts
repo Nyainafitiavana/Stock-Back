@@ -14,6 +14,11 @@ class DetailmouvementService extends Repository<DetailMouvementEntity> {
     return detaiMouvements;
   }
 
+  public async findByIdDetail(id: number): Promise<DetailMouvement[]> {
+    const detaiMouvements: DetailMouvement[] = await DetailMouvementEntity.find({where: {id: id}, relations: ['mouvement', 'produit'], take:1});
+    return detaiMouvements;
+  }
+
   public async findDetailMouvementById(detailmvtId: number): Promise<DetailMouvement> {
     if (isEmpty(detailmvtId)) throw new HttpException(400, 'mouvement details id not found');
 

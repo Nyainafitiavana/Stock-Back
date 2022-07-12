@@ -32,6 +32,25 @@ class DetailMouvementController {
     }
   };
 
+  public getDetailById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const id:number = +req.params.id;
+      const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findByIdDetail(id);
+
+      const rows = {
+        data: findAllDetailMouvementsData,
+        status: 200,
+        totalRows: findAllDetailMouvementsData.length,
+        limit: null,
+        page: 1
+      }
+
+      res.status(200).json({ rows, message: 'findAll detail mouvement' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
  
   
   public getQuantityProductByDay = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
