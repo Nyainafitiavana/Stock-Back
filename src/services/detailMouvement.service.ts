@@ -6,7 +6,6 @@ import { HttpException } from '../exceptions/HttpException';
 import { DetailMouvement } from '../interfaces/detailMouvement.interface';
 import { DetailMouvementEntity } from '../entities/detailMouvement.entity';
 import { CreateDetailMouvementDto } from '../dtos/detailMouvement.dto';
-import { join } from 'path';
 
 @EntityRepository()
 class DetailmouvementService extends Repository<DetailMouvementEntity> {
@@ -67,7 +66,7 @@ class DetailmouvementService extends Repository<DetailMouvementEntity> {
   }
 
   public async findMouvementByDay(date :Date, limit: number, offset: number): Promise<DetailMouvement[]> {
-    const value = "a";
+    const value = "Vente";
     const findMouvementByDate: DetailMouvement[] = await DetailMouvementEntity.createQueryBuilder('qb')
                                                                    .innerJoinAndSelect('qb.mouvement','mouvement')
                                                                    .where('mouvement.createdAt = :dateJour', {dateJour: date})
