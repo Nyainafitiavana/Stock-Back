@@ -9,8 +9,8 @@ import { TypeMouvementDto } from '../dtos/typeMouvement.dto';
 @EntityRepository()
 class TypeMouvementService extends Repository<TypeMouvementEntity> {
   //find all category
-  public async findAllType(): Promise<TypeMouvement[]> {
-    const typeMvt: TypeMouvement[] = await TypeMouvementEntity.find();
+  public async findAllType(limit: number, offset: number): Promise<TypeMouvement[]> {
+    const typeMvt: TypeMouvement[] = await TypeMouvementEntity.find({take: limit, skip: offset});
     return typeMvt;
   }
 

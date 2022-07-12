@@ -10,9 +10,21 @@ class TypeMouvementController {
 
   public getTypeMouvement = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllType: TypeMouvement[] = await this.typeMouvementService.findAllType();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
+      const findAllType: TypeMouvement[] = await this.typeMouvementService.findAllType(limit, offset);
+      
+      const rows = {
+        data: findAllType,
+        status: 200,
+        totalRows: findAllType.length,
+        limit: limit,
+        page: page
+      }
 
-      res.status(200).json({ data: findAllType, message: 'get all typeMouvement success' });
+      res.status(200).json({ rows, message: 'get all typeMouvement success' });
     } catch (error) {
       next(error);
     }

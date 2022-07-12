@@ -9,9 +9,21 @@ class RolesController {
 
   public getRoles = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllRolesData: Roles[] = await this.roleService.findAllRoles();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
+      const findAllRolesData: Roles[] = await this.roleService.findAllRoles(limit, offset);
 
-      res.status(200).json({ data: findAllRolesData, message: 'get all roles success' });
+      const rows = {
+        data: findAllRolesData,
+        status: 200,
+        totalRows: findAllRolesData.length,
+        limit: limit,
+        page: page
+      }
+
+      res.status(200).json({ rows, message: 'get all roles success' });
     } catch (error) {
       next(error);
     }
