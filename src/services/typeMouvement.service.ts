@@ -14,10 +14,10 @@ class TypeMouvementService extends Repository<TypeMouvementEntity> {
     return typeMvt;
   }
 
-  public async findTypeById(typeMouvementId: number): Promise<TypeMouvement> {
+  public async findTypeById(typeMouvementId: number): Promise<TypeMouvement[]> {
     if (isEmpty(typeMouvementId)) throw new HttpException(400, "You're not typeMouvementId");
 
-    const findTypeMouvement: TypeMouvement = await TypeMouvementEntity.findOne({ where: { id: typeMouvementId } });
+    const findTypeMouvement: TypeMouvement[] = await TypeMouvementEntity.find({ where: { id: typeMouvementId }, take:1 });
     if (!findTypeMouvement) throw new HttpException(409, "You're not type");
 
     return findTypeMouvement;

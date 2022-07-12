@@ -57,9 +57,17 @@ class TypeMouvementController {
   public findTypeMouvementById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const typeMouvementId = Number(req.params.id);
-      const findMouvementByIdData: TypeMouvement = await this.typeMouvementService.findTypeById(typeMouvementId);
+      const findMouvementByIdData: TypeMouvement[] = await this.typeMouvementService.findTypeById(typeMouvementId);
 
-      res.status(200).json({ data: findMouvementByIdData, message: 'findTypeMouvement data success' });
+      const rows = {
+        data: findMouvementByIdData,
+        status: 200,
+        totalRows: findMouvementByIdData.length,
+        limit: null,
+        page: null
+      }
+
+      res.status(200).json({ rows, message: 'findTypeMouvement data success' });
     } catch (error) {
       next(error);
     }
