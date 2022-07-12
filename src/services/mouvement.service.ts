@@ -5,23 +5,12 @@ import { HttpException } from '../exceptions/HttpException';
 import { MouvementEntity } from '../entities/mouvement.entity';
 import { Mouvement } from '@/interfaces/mouvement.interface';
 import { CreateMouvementDto } from '@/dtos/mouvement.dto';
-import { Produit } from '@/interfaces/produits.interface';
-import { ProduitEntity } from '@/entities/produits.entity';
 
 @EntityRepository()
 class MouvementService extends Repository<MouvementEntity> {
-  public async findAllMouvement(): Promise<Mouvement[]> {
-    const mouvements: Mouvement[] = await MouvementEntity.find({ relations: ['user'] });
+  public async findAllMouvement(limit: number, offset: number): Promise<Mouvement[]> {
+    const mouvements: Mouvement[] = await MouvementEntity.find({ relations: ['user'], order:{'id':'ASC'}, take: limit, skip: offset});
     return mouvements;
-  }
-
-  public async findProduitById(produitId: number): Promise<Produit> {
-    if (isEmpty(produitId)) throw new HttpException(400, "You're not produitId");
-
-    const findProduit: Produit = await ProduitEntity.findOne({ where: { id: produitId }, relations: ['category'] });
-    if (!findProduit) throw new HttpException(409, "You're not produit");
-
-    return findProduit;
   }
 
   public async findMouvementById(mvtId: number): Promise<Mouvement> {

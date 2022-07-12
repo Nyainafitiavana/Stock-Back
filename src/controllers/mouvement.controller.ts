@@ -24,9 +24,21 @@ class MouvementController {
 
   public getAllMouvement = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllMouvementsData: Mouvement[] = await this.mouvementService.findAllMouvement();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
 
-      res.status(200).json({ data: findAllMouvementsData, message: 'findAll mouvement' });
+      const findAllMouvementsData: Mouvement[] = await this.mouvementService.findAllMouvement(limit, offset);
+      const rows: any = {
+        data: findAllMouvementsData,
+        status: 200,
+        totalRows: findAllMouvementsData.length,
+        limit: limit,
+        page: page
+      }
+
+      res.status(200).json({ rows, message: 'findAll mouvement' });
     } catch (error) {
       next(error);
     }
@@ -166,16 +178,20 @@ class MouvementController {
   public getAllMouvementByDay = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const date: string = req.query.date as string;
-        console.log(date);
-        
         const limit = +req.query.limit;
         const page = +req.query.page;
-        const offset = limit*(page -1);
-        console.log(offset);
-        
-      const findMouvementData: Mouvement[] = await this.mouvementService.findMouvementByDay(date,limit,offset);
+        const offset = limit * (page - 1);
 
-      res.status(200).json({ data: findMouvementData, message: 'findAll detail mouvement' });
+        const findMouvementData: Mouvement[] = await this.mouvementService.findMouvementByDay(date,limit,offset);
+        const rows:any = {
+          data: findMouvementData,
+          status: 200,
+          totalRows: findMouvementData.length,
+          limit: limit,
+          page: page
+        };
+
+        res.status(200).json({ rows, message: 'findAll detail mouvement' });
     } catch (error) {
       next(error);
     }
