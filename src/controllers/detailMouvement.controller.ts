@@ -12,9 +12,21 @@ class DetailMouvementController {
 
   public getAllDetail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findAllDetailMouvement();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
+      const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findAllDetailMouvement(limit, offset);
 
-      res.status(200).json({ data: findAllDetailMouvementsData, message: 'findAll detail mouvement' });
+      const rows = {
+        data: findAllDetailMouvementsData,
+        status: 200,
+        totalRows: findAllDetailMouvementsData.length,
+        limit: limit,
+        page: page
+      }
+
+      res.status(200).json({ rows, message: 'findAll detail mouvement' });
     } catch (error) {
       next(error);
     }

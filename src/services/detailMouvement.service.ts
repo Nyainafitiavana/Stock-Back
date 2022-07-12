@@ -9,8 +9,8 @@ import { CreateDetailMouvementDto } from '../dtos/detailMouvement.dto';
 
 @EntityRepository()
 class DetailmouvementService extends Repository<DetailMouvementEntity> {
-  public async findAllDetailMouvement(): Promise<DetailMouvement[]> {
-    const detaiMouvements: DetailMouvement[] = await DetailMouvementEntity.find({ relations: ['mouvement', 'produit'] });
+  public async findAllDetailMouvement(limit:number, offset: number): Promise<DetailMouvement[]> {
+    const detaiMouvements: DetailMouvement[] = await DetailMouvementEntity.find({ relations: ['mouvement', 'produit'], skip: limit, take: offset });
     return detaiMouvements;
   }
 
