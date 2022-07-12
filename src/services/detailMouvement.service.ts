@@ -76,7 +76,7 @@ class DetailmouvementService extends Repository<DetailMouvementEntity> {
                                                                    .leftJoin('qb.mouvement','mouvement')
                                                                    .select("mouvement.createdAt","date")
                                                                    .addSelect("SUM(qb.quantite)", "quantite")
-                                                                   .where('mouvement.typeMouvement=1')
+                                                                   .where('mouvement.typeMouvement=2')
                                                                    .groupBy("date")
                                                                    .orderBy('date','DESC')
                                                                    .limit(7)
