@@ -1,9 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Router } from 'express';
 import { Routes } from '@interfaces/routes.interface';
-import validationMiddleware from '@middlewares/validation.middleware';
-import MouvementController from '../controllers/mouvement.controller';
-import { CreateMouvementDto } from '@/dtos/mouvement.dto';
 import authMiddleware from '@/middlewares/auth.middleware';
 import securityMiddleware from '@/middlewares/securityToken.middleware';
 import DetailMouvementController from '../controllers/detailMouvement.controller';

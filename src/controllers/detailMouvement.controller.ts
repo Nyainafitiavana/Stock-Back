@@ -20,16 +20,7 @@ class DetailMouvementController {
     }
   };
 
-  public getAllDetailProduit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-        const date = new Date();
-      const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findMouvementByDay(date,50,0);
-
-      res.status(200).json({ data: findAllDetailMouvementsData, message: 'findAll detail mouvement' });
-    } catch (error) {
-      next(error);
-    }
-  };
+ 
   
   public getQuantityProductByDay = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {

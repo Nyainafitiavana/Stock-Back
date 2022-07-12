@@ -163,20 +163,37 @@ class MouvementController {
     }
   };
 
-  public getMouvementByDate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getAllMouvementByDay = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const date: Date = new Date()
-      const day = ("0" + date.getDate()).slice(-2);
-      const mounth = ("0" + (date.getMonth() + 1)).slice(-2);
-      const year = date.getFullYear();
-      const combiDate:string = ""+year+"-"+mounth+"-"+day;
+        const date: string = req.query.date as string;
+        console.log(date);
+        
+        const limit = +req.query.limit;
+        const page = +req.query.page;
+        const offset = limit*(page -1);
+        console.log(offset);
+        
+      const findMouvementData: Mouvement[] = await this.mouvementService.findMouvementByDay(date,limit,offset);
 
-      const findMouvementsData: Mouvement[] = await this.mouvementService.findMouvementByDate(combiDate);
-      res.status(200).json({ data: findMouvementsData, message: 'findAll mouvement by date' });
+      res.status(200).json({ data: findMouvementData, message: 'findAll detail mouvement' });
     } catch (error) {
       next(error);
     }
   };
+  // public getMouvementByDate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  //   try {
+  //     const date: Date = new Date()
+  //     const day = ("0" + date.getDate()).slice(-2);
+  //     const mounth = ("0" + (date.getMonth() + 1)).slice(-2);
+  //     const year = date.getFullYear();
+  //     const combiDate:string = ""+year+"-"+mounth+"-"+day;
+
+  //     const findMouvementsData: Mouvement[] = await this.mouvementService.findMouvementByDate(combiDate);
+  //     res.status(200).json({ data: findMouvementsData, message: 'findAll mouvement by date' });
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // };
 
 }
 

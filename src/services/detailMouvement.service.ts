@@ -56,14 +56,14 @@ class DetailmouvementService extends Repository<DetailMouvementEntity> {
     return findDetailMouvement;
   }
 
-  public async findMouvementByDay(date :Date, limit: number, offset: number): Promise<DetailMouvement[]> {
+  public async findMouvementByDay(date :string, limit: number, offset: number): Promise<DetailMouvement[]> {
     const value = "Vente";
     const findMouvementByDate: DetailMouvement[] = await DetailMouvementEntity.createQueryBuilder('qb')
                                                                    .innerJoinAndSelect('qb.mouvement','mouvement')
                                                                    .where('mouvement.createdAt = :dateJour', {dateJour: date})
                                                                    .andWhere('mouvement.motif like :q', { q: `%${value}%` })
-                                                                   .skip(offset)
-                                                                   .take(limit)
+                                                                   .limit(limit)
+                                                                   .offset(offset)
                                                                    .getMany();
     if (!findMouvementByDate) throw new HttpException(409, "You're not mouvement");
 

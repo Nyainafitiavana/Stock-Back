@@ -24,10 +24,7 @@ export class CreateUserDto {
 
 export class CreateLoginDto {
   @IsString()
-  public email?: string;
-  
-  @IsString()
-  public userName?: string;
+  public identifiant: string;
 
   @IsString()
   public password: string;

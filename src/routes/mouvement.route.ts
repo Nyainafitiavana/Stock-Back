@@ -22,7 +22,7 @@ class MouvementRoute implements Routes {
     this.router.post(`${this.path}`, securityMiddleware, validationMiddleware(CreateMouvementDto, 'body'), this.mouvementController.createMouvement);
     this.router.put(`${this.path}/:id(\\d+)`, securityMiddleware, validationMiddleware(CreateMouvementDto, 'body', true), this.mouvementController.updateMouvement);
     this.router.delete(`${this.path}/:id(\\d+)`, securityMiddleware, this.mouvementController.deleteMouvement);
-    this.router.get(`${this.path}/findByDate`, this.mouvementController.getMouvementByDate);
+    this.router.get(`${this.path}/findByDate`, this.mouvementController.getAllMouvementByDay);
   }
 }
 
