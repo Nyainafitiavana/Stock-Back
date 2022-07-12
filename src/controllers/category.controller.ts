@@ -9,9 +9,21 @@ class CategoryController {
 
   public getCategory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllCategorysData: Category[] = await this.categoryService.findAllCategory();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
+      const findAllCategorysData: Category[] = await this.categoryService.findAllCategory(limit, offset);
 
-      res.status(200).json({ data: findAllCategorysData, message: 'get all category success' });
+      const rows = {
+        data: findAllCategorysData,
+        status: 200,
+        totalRows: findAllCategorysData.length,
+        limit: limit,
+        page: page
+      }
+
+      res.status(200).json({ rows, message: 'get all category success' });
     } catch (error) {
       next(error);
     }

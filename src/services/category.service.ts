@@ -9,8 +9,8 @@ import { isEmpty } from '@utils/util';
 @EntityRepository()
 class CategoryService extends Repository<CategoryEntity> {
   //find all category
-  public async findAllCategory(): Promise<Category[]> {
-    const cats: Category[] = await CategoryEntity.find();
+  public async findAllCategory(limit: number, offset: number): Promise<Category[]> {
+    const cats: Category[] = await CategoryEntity.find({take: limit, skip: offset});
     return cats;
   }
 
