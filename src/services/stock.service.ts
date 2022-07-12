@@ -8,8 +8,8 @@ import { HttpException } from '../exceptions/HttpException';
 
 @EntityRepository()
 class StockService extends Repository<StockEntity> {
-  public async findAllStock(): Promise<Stock[]> {
-    const stocks: Stock[] = await StockEntity.find({ relations: ['produit'] });
+  public async findAllStock(limit: number, offset: number): Promise<Stock[]> {
+    const stocks: Stock[] = await StockEntity.find({ relations: ['produit'], take: limit, skip: offset });
     return stocks;
   }
 

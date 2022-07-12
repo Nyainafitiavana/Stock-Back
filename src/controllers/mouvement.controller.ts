@@ -196,21 +196,6 @@ class MouvementController {
       next(error);
     }
   };
-  // public getMouvementByDate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  //   try {
-  //     const date: Date = new Date()
-  //     const day = ("0" + date.getDate()).slice(-2);
-  //     const mounth = ("0" + (date.getMonth() + 1)).slice(-2);
-  //     const year = date.getFullYear();
-  //     const combiDate:string = ""+year+"-"+mounth+"-"+day;
-
-  //     const findMouvementsData: Mouvement[] = await this.mouvementService.findMouvementByDate(combiDate);
-  //     res.status(200).json({ data: findMouvementsData, message: 'findAll mouvement by date' });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
-
 }
 
 export default MouvementController;
