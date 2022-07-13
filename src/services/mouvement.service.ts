@@ -13,10 +13,10 @@ class MouvementService extends Repository<MouvementEntity> {
     return mouvements;
   }
 
-  public async findMouvementById(mvtId: number): Promise<Mouvement> {
+  public async findMouvementById(mvtId: number): Promise<Mouvement[]> {
     if (isEmpty(mvtId)) throw new HttpException(400, 'mouvement id not found');
 
-    const findMouvement: Mouvement = await MouvementEntity.findOne({ where: { id: mvtId }, relations: ['user'] });
+    const findMouvement: Mouvement[] = await MouvementEntity.find({ where: { id: mvtId }, relations: ['user'], take:1 });
     if (!findMouvement) throw new HttpException(409, "You're not mouvement");
 
     return findMouvement;

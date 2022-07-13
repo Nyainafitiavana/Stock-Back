@@ -17,14 +17,15 @@ class ProduitController {
       const findAllProduitsDataNoLimit: Produit[] = await this.produitService.findAllProduit(take, skip);
       const totalRows = findAllProduitsDataNoLimit.length;
       const findAllProduitsData: Produit[] = await this.produitService.findAllProduit(take, skip);
-      const rows: any = {
-          datas: findAllProduitsData,
+      const data: any = {
+          status: 200,
           totalRows: totalRows,
           limite: take,
-          page: page
+          page: page,
+          rows: findAllProduitsData,
       };
 
-      res.status(200).json({rows, message: 'findAll' });
+      res.status(200).json({data, message: 'findAll' });
 
     } catch (error) {
       next(error);
@@ -34,9 +35,16 @@ class ProduitController {
   public getProduit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const ProduitId = Number(req.params.id);
-      const findProduct: Produit = await this.produitService.findProduitById(ProduitId);
-
-      res.status(200).json({ data: findProduct, message: 'findCategory data success' });
+      const findProduct: Produit[]= await this.produitService.findProduitById(ProduitId);
+      const data: any = {
+        status: 200,
+        totalRows: findProduct.length,
+        limite: null,
+        page: 1,
+        rows: findProduct,
+      };
+      
+      res.status(200).json({ data, message: 'findCategory data success' });
     } catch (error) {
       next(error);
     }

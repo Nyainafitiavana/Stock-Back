@@ -14,10 +14,10 @@ class CategoryService extends Repository<CategoryEntity> {
     return cats;
   }
 
-  public async findCategoryById(categoryId: number): Promise<Category> {
+  public async findCategoryById(categoryId: number): Promise<Category[]> {
     if (isEmpty(categoryId)) throw new HttpException(400, "You're not categoryId");
 
-    const findCategory: Category = await CategoryEntity.findOne({ where: { id: categoryId } });
+    const findCategory: Category[] = await CategoryEntity.find({ where: { id: categoryId }, take: 1 });
     if (!findCategory) throw new HttpException(409, "You're not category");
 
     return findCategory;

@@ -15,14 +15,15 @@ class StockController {
       const page: number = +req.query.page;
       const offset: number = limit * (page - 1);
       const findAllStockData: Stock[] = await this.stockService.findAllStock(limit, offset);
-      const rows = {
-        data: findAllStockData,
+      const data = {
         status: 200,
         totalRows: findAllStockData.length,
         limit: limit,
-        page: page
+        page: page,
+        rows: findAllStockData,
       }
-      res.status(200).json({ rows, message: 'findAll' });
+
+      res.status(200).json({ data, message: 'findAll' });
     } catch (error) {
       next(error);
     }
@@ -41,20 +42,18 @@ class StockController {
 
   public getSeuilStock = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const limit = null;
-      const page = null;
       const stockSeuil: seuilSecurity = await this.seuilSecurityService.findSeuilById();
       const findStock: Stock[] = await this.stockService.findStockProduitSeuil(stockSeuil.seuil);
 
-      const rows = {
-        data: findStock,
+      const data = {
         status: 200,
         totalRows: findStock.length,
-        limit: limit,
-        page: page
+        limit: null,
+        page: 1,
+        rows: findStock,
       }
 
-      res.status(200).json({ rows, message: 'findStock data success' });
+      res.status(200).json({ data, message: 'findStock data success' });
     } catch (error) {
       next(error);
     }

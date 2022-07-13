@@ -30,15 +30,15 @@ class MouvementController {
       const offset: number = limit * (page - 1);
 
       const findAllMouvementsData: Mouvement[] = await this.mouvementService.findAllMouvement(limit, offset);
-      const rows: any = {
-        data: findAllMouvementsData,
+      const data: any = {
         status: 200,
         totalRows: findAllMouvementsData.length,
         limit: limit,
-        page: page
+        page: page,
+        rows: findAllMouvementsData
       }
 
-      res.status(200).json({ rows, message: 'findAll mouvement' });
+      res.status(200).json({ data, message: 'findAll mouvement' });
     } catch (error) {
       next(error);
     }
@@ -47,9 +47,15 @@ class MouvementController {
   public getMouvementById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const mouvementId = Number(req.params.id);
-      const findMouvement: Mouvement = await this.mouvementService.findMouvementById(mouvementId);
-
-      res.status(200).json({ data: findMouvement, message: 'findMouvement data success' });
+      const findMouvement: Mouvement[] = await this.mouvementService.findMouvementById(mouvementId);
+      const data: any = {
+        status: 200,
+        totalRows: findMouvement.length,
+        limit: null,
+        page: 1,
+        rows: findMouvement
+      }
+      res.status(200).json({ data, message: 'findMouvement data success' });
     } catch (error) {
       next(error);
     }
@@ -183,15 +189,15 @@ class MouvementController {
         const offset = limit * (page - 1);
 
         const findMouvementData: Mouvement[] = await this.mouvementService.findMouvementByDay(date,limit,offset);
-        const rows:any = {
-          data: findMouvementData,
+        const data:any = {
+          rows: findMouvementData,
           status: 200,
           totalRows: findMouvementData.length,
           limit: limit,
           page: page
         };
 
-        res.status(200).json({ rows, message: 'findAll detail mouvement' });
+        res.status(200).json({ data, message: 'findAll detail mouvement' });
     } catch (error) {
       next(error);
     }

@@ -15,10 +15,10 @@ class ProduitService extends Repository<ProduitEntity> {
     return prods;
   }
 
-  public async findProduitById(produitId: number): Promise<Produit> {
+  public async findProduitById(produitId: number): Promise<Produit[]> {
     if (isEmpty(produitId)) throw new HttpException(400, "You're not produitId");
 
-    const findProduit: Produit = await ProduitEntity.findOne({ where: { id: produitId }, relations: ['category'] });
+    const findProduit: Produit[] = await ProduitEntity.find({ where: { id: produitId }, relations: ['category'], take:1 });
     if (!findProduit) throw new HttpException(409, "You're not produit");
 
     return findProduit;

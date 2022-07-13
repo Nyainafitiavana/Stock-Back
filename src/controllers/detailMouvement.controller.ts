@@ -37,15 +37,15 @@ class DetailMouvementController {
       const id:number = +req.params.id;
       const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findByIdDetail(id);
 
-      const rows = {
-        data: findAllDetailMouvementsData,
+      const data = {
         status: 200,
         totalRows: findAllDetailMouvementsData.length,
         limit: null,
-        page: 1
+        page: 1,
+        rows: findAllDetailMouvementsData,
       }
 
-      res.status(200).json({ rows, message: 'findAll detail mouvement' });
+      res.status(200).json({ data, message: 'findAll detail mouvement' });
     } catch (error) {
       next(error);
     }

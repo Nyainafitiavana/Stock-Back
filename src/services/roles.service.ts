@@ -14,10 +14,10 @@ class RolesService extends Repository<RoleEntity> {
     return roles;
   }
 
-  public async findRolesById(roleId: number): Promise<Roles> {
+  public async findRolesById(roleId: number): Promise<Roles[]> {
     if (isEmpty(roleId)) throw new HttpException(400, "You're not categoryId");
 
-    const findRole: Roles = await RoleEntity.findOne({ where: { id: roleId } });
+    const findRole: Roles[] = await RoleEntity.find({ where: { id: roleId }, take: 1 });
     if (!findRole) throw new HttpException(409, "You're not role");
 
     return findRole;
