@@ -14,10 +14,11 @@ class RolesController {
       const page: number = +query.page;
       const offset: number = limit * (page - 1);
       const findAllRolesData: Roles[] = await this.roleService.findAllRoles(limit, offset);
+      const findAllRoles: Roles[] = await this.roleService.findAllRoles(null, null);
 
       const data = {
         status: 200,
-        totalRows: findAllRolesData.length,
+        totalRows: findAllRoles.length,
         limit: limit,
         page: page,
         rows: findAllRolesData,

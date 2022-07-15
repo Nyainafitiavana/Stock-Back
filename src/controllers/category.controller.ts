@@ -14,10 +14,11 @@ class CategoryController {
       const page: number = +query.page;
       const offset: number = limit * (page - 1);
       const findAllCategorysData: Category[] = await this.categoryService.findAllCategory(limit, offset);
+      const findAllCategorys: Category[] = await this.categoryService.findAllCategory(null, null);
 
       const data = {
         status: 200,
-        totalRows: findAllCategorysData.length,
+        totalRows: findAllCategorys.length,
         limit: limit,
         page: page,
         rows: findAllCategorysData, 

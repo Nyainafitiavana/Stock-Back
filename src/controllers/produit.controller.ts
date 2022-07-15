@@ -14,7 +14,7 @@ class ProduitController {
       const take = +request.limite;
       const skip = take * (page - 1)
 
-      const findAllProduitsDataNoLimit: Produit[] = await this.produitService.findAllProduit(take, skip);
+      const findAllProduitsDataNoLimit: Produit[] = await this.produitService.findAllProduit(null, null);
       const totalRows = findAllProduitsDataNoLimit.length;
       const findAllProduitsData: Produit[] = await this.produitService.findAllProduit(take, skip);
       const data: any = {

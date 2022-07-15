@@ -17,11 +17,12 @@ class DetailMouvementController {
       const page: number = +query.page;
       const offset: number = limit * (page - 1);
       const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findAllDetailMouvement(limit, offset);
+      const findAllDetailMouvements: DetailMouvement[] = await this.detaiService.findAllDetailMouvement(null, null);
 
       const rows = {
         data: findAllDetailMouvementsData,
         status: 200,
-        totalRows: findAllDetailMouvementsData.length,
+        totalRows: findAllDetailMouvements.length,
         limit: limit,
         page: page
       }

@@ -30,9 +30,10 @@ class MouvementController {
       const offset: number = limit * (page - 1);
 
       const findAllMouvementsData: Mouvement[] = await this.mouvementService.findAllMouvement(limit, offset);
+      const findAllMouvements: Mouvement[] = await this.mouvementService.findAllMouvement(null, null);
       const data: any = {
         status: 200,
-        totalRows: findAllMouvementsData.length,
+        totalRows: findAllMouvements.length,
         limit: limit,
         page: page,
         rows: findAllMouvementsData

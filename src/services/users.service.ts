@@ -8,15 +8,15 @@ import { isEmpty } from '@utils/util';
 
 @EntityRepository()
 class UserService extends Repository<UserEntity> {
-  public async findAllUser(): Promise<User[]> {
-    const users: User[] = await UserEntity.find();
+  public async findAllUser(limit: number, offset: number): Promise<User[]> {
+    const users: User[] = await UserEntity.find({ relations: ['role'], take: limit, skip: offset });
     return users;
   }
 
   public async findUserById(userId: number): Promise<User> {
     if (isEmpty(userId)) throw new HttpException(400, "You're not userId");
 
-    const findUser: User = await UserEntity.findOne({ where: { id: userId } });
+    const findUser: User = await UserEntity.findOne({ where: { id: userId }, relations: ['role'] });
     if (!findUser) throw new HttpException(409, "You're not user");
 
     return findUser;

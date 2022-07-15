@@ -15,9 +15,10 @@ class StockController {
       const page: number = +req.query.page;
       const offset: number = limit * (page - 1);
       const findAllStockData: Stock[] = await this.stockService.findAllStock(limit, offset);
+      const findAllStock: Stock[] = await this.stockService.findAllStock(null, null);
       const data = {
         status: 200,
-        totalRows: findAllStockData.length,
+        totalRows: findAllStock.length,
         limit: limit,
         page: page,
         rows: findAllStockData,

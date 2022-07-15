@@ -8,9 +8,21 @@ class UsersController {
 
   public getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllUsersData: User[] = await this.userService.findAllUser();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
+      const findAllUsersData: User[] = await this.userService.findAllUser(limit, offset);
+      const findAllUsers: User[] = await this.userService.findAllUser(null, null);
 
-      res.status(200).json({ data: findAllUsersData, message: 'findAll' });
+      const data: any = {
+        status: 200,
+        totalRows: findAllUsers.length,
+        limit: limit,
+        page: page,
+        rows: findAllUsersData,
+      };
+      res.status(200).json({ data, message: 'findAll' });
     } catch (error) {
       next(error);
     }
