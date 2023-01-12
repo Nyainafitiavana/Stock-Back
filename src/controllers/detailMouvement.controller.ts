@@ -33,6 +33,17 @@ class DetailMouvementController {
     }
   };
 
+  public getDetailByIdMouvement = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const mouvementId = Number(req.params.id);
+      const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findDetailMouvementByIdMouvement(mouvementId);
+
+      res.status(200).json({ data: findAllDetailMouvementsData, message: 'findAll detail mouvement by id Mouvement' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
 }
 
 export default DetailMouvementController;

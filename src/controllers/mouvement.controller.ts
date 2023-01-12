@@ -46,10 +46,10 @@ class MouvementController {
   public createMouvement = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       //get user connected
-      const Authorization = req.cookies['Authorization'] || (req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null);
-      const secretKey: string = SECRET_KEY;
-      const { id } = (await verify(Authorization, secretKey)) as DataStoredInToken;
-      const findUser = await UserEntity.findOne(id, { select: ['id', 'email', 'password'] });
+      // const Authorization = req.cookies['Authorization'] || (req.header('Authorization') ? req.header('Authorization').split('Bearer ')[1] : null);
+      // const secretKey: string = SECRET_KEY;
+      // const { id } = (await verify(Authorization, secretKey)) as DataStoredInToken;
+      // const findUser = await UserEntity.findOne(id, { select: ['id', 'email', 'password'] });
       const motif = req.body.motif;
       const date: Date = new Date()
       const day = ("0" + date.getDate()).slice(-2);
@@ -60,7 +60,6 @@ class MouvementController {
       if (motif == "Vente") {
         const typeSortie: any = await TypeMouvementEntity.findOne({id: 2});
         const object: any = {
-          user: findUser,
           motif: req.body.motif,
           createdAt: combiDate,
           typeMouvement: typeSortie,
@@ -98,7 +97,6 @@ class MouvementController {
       }else if (motif == "EntrerStock") {
         const typeEntrer: any = await TypeMouvementEntity.findOne({id: 1});
         const object: any = {
-          user: findUser,
           motif: req.body.motif,
           createdAt: combiDate,
           typeMouvement: typeEntrer,

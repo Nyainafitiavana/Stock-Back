@@ -23,6 +23,14 @@ class DetailmouvementService extends Repository<DetailMouvementEntity> {
     return findDetailMouvement;
   }
 
+  public async findDetailMouvementByIdMouvement(mvtId: number): Promise<DetailMouvement[]> {
+    if (isEmpty(mvtId)) throw new HttpException(400, 'mouvement details id not found');
+
+    const findDetailMouvement: DetailMouvement[] = await DetailMouvementEntity.find({ where: { id: mvtId }, relations: ['mouvement'] });
+
+    return findDetailMouvement;
+  }
+
   public async createDetailMouvement(detailMouvementData: CreateDetailMouvementDto): Promise<DetailMouvement> {
     if (isEmpty(detailMouvementData)) throw new HttpException(400, 'id mouvement detail not found');
     try {
@@ -54,20 +62,6 @@ class DetailmouvementService extends Repository<DetailMouvementEntity> {
 
     await DetailMouvementEntity.delete({ id: detailmvtId });
     return findDetailMouvement;
-  }
-
-  public async findMouvementByDay(date :string, limit: number, offset: number): Promise<DetailMouvement[]> {
-    const value = "Vente";
-    const findMouvementByDate: DetailMouvement[] = await DetailMouvementEntity.createQueryBuilder('qb')
-                                                                   .innerJoinAndSelect('qb.mouvement','mouvement')
-                                                                   .where('mouvement.createdAt = :dateJour', {dateJour: date})
-                                                                   .andWhere('mouvement.motif like :q', { q: `%${value}%` })
-                                                                   .limit(limit)
-                                                                   .offset(offset)
-                                                                   .getMany();
-    if (!findMouvementByDate) throw new HttpException(409, "You're not mouvement");
-
-    return findMouvementByDate;
   }
 
   // quatité des produits vendu par jour

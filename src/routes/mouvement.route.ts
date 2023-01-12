@@ -17,10 +17,10 @@ class MouvementRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, authMiddleware, this.mouvementController.getAllMouvement);
-    this.router.get(`${this.path}/:id(\\d+)`, authMiddleware, this.mouvementController.getMouvementById);
-    this.router.post(`${this.path}`, securityMiddleware, validationMiddleware(CreateMouvementDto, 'body'), this.mouvementController.createMouvement);
-    this.router.put(`${this.path}/:id(\\d+)`, securityMiddleware, validationMiddleware(CreateMouvementDto, 'body', true), this.mouvementController.updateMouvement);
+    this.router.get(`${this.path}`, this.mouvementController.getAllMouvement);
+    this.router.get(`${this.path}/:id(\\d+)`, this.mouvementController.getMouvementById);
+    this.router.post(`${this.path}`,  validationMiddleware(CreateMouvementDto, 'body'), this.mouvementController.createMouvement);
+    this.router.put(`${this.path}/:id(\\d+)`, validationMiddleware(CreateMouvementDto, 'body', true), this.mouvementController.updateMouvement);
     this.router.delete(`${this.path}/:id(\\d+)`, securityMiddleware, this.mouvementController.deleteMouvement);
     this.router.get(`${this.path}/findByDate`, this.mouvementController.getAllMouvementByDay);
   }

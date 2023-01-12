@@ -17,6 +17,7 @@ class DetailMouvementRoute implements Routes {
   private initializeRoutes() {
     this.router.get(`${this.path}`, authMiddleware, this.detailMouvementController.getAllDetail);
     this.router.get(`${this.path}/quantiteParJour`, securityMiddleware, this.detailMouvementController.getQuantityProductByDay);
+    this.router.get(`${this.path}/findByMouvement/:id(\\d+)`, this.detailMouvementController.getDetailByIdMouvement);
   }
 }
 
