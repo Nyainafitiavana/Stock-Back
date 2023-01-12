@@ -24,9 +24,22 @@ class MouvementController {
 
   public getAllMouvement = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllMouvementsData: Mouvement[] = await this.mouvementService.findAllMouvement();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
 
-      res.status(200).json({ data: findAllMouvementsData, message: 'findAll mouvement' });
+      const findAllMouvementsData: Mouvement[] = await this.mouvementService.findAllMouvement(limit, offset);
+      const findAllMouvements: Mouvement[] = await this.mouvementService.findAllMouvement(null, null);
+      const data: any = {
+        status: 200,
+        totalRows: findAllMouvements.length,
+        limit: limit,
+        page: page,
+        rows: findAllMouvementsData
+      }
+
+      res.status(200).json({ data, message: 'findAll mouvement' });
     } catch (error) {
       next(error);
     }
@@ -35,9 +48,15 @@ class MouvementController {
   public getMouvementById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const mouvementId = Number(req.params.id);
-      const findMouvement: Mouvement = await this.mouvementService.findMouvementById(mouvementId);
-
-      res.status(200).json({ data: findMouvement, message: 'findMouvement data success' });
+      const findMouvement: Mouvement[] = await this.mouvementService.findMouvementById(mouvementId);
+      const data: any = {
+        status: 200,
+        totalRows: findMouvement.length,
+        limit: null,
+        page: 1,
+        rows: findMouvement
+      }
+      res.status(200).json({ data, message: 'findMouvement data success' });
     } catch (error) {
       next(error);
     }
@@ -164,35 +183,24 @@ class MouvementController {
   public getAllMouvementByDay = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const date: string = req.query.date as string;
-        console.log(date);
-        
         const limit = +req.query.limit;
         const page = +req.query.page;
-        const offset = limit*(page -1);
-        console.log(offset);
-        
-      const findMouvementData: Mouvement[] = await this.mouvementService.findMouvementByDay(date,limit,offset);
+        const offset = limit * (page - 1);
 
-      res.status(200).json({ data: findMouvementData, message: 'findAll detail mouvement' });
+        const findMouvementData: Mouvement[] = await this.mouvementService.findMouvementByDay(date,limit,offset);
+        const data:any = {
+          rows: findMouvementData,
+          status: 200,
+          totalRows: findMouvementData.length,
+          limit: limit,
+          page: page
+        };
+
+        res.status(200).json({ data, message: 'findAll detail mouvement' });
     } catch (error) {
       next(error);
     }
   };
-  // public getMouvementByDate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  //   try {
-  //     const date: Date = new Date()
-  //     const day = ("0" + date.getDate()).slice(-2);
-  //     const mounth = ("0" + (date.getMonth() + 1)).slice(-2);
-  //     const year = date.getFullYear();
-  //     const combiDate:string = ""+year+"-"+mounth+"-"+day;
-
-  //     const findMouvementsData: Mouvement[] = await this.mouvementService.findMouvementByDate(combiDate);
-  //     res.status(200).json({ data: findMouvementsData, message: 'findAll mouvement by date' });
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
-
 }
 
 export default MouvementController;

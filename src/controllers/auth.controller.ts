@@ -4,13 +4,30 @@ import { CreateUserDto, CreateLoginDto } from '@dtos/users.dto';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import AuthService from '@services/auth.service';
+import { CreateUserSignUpDto } from '../dtos/users.dto';
+import { Roles } from '../interfaces/roles.interface';
+import RolesService from '@/services/roles.service';
+import { RoleEntity } from '../entities/roles.entity';
 
 class AuthController {
   public authService = new AuthService();
+  public roleService = new RolesService();
 
   public signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userData: CreateUserDto = req.body;
+      const findRole: Roles = await RoleEntity.findOne({where: { designation: 'CLIENT' }});
+      const objectUser: any = {
+        email: req.body.email,
+        password: req.body.password,
+        userName: req.body.userName,
+        telephone: req.body.telephone,
+        adresse: req.body.adresse,
+        role: findRole
+      }
+
+      const userData: CreateUserSignUpDto = objectUser;
+      console.log(userData);
+      
       const signUpUserData: User = await this.authService.signup(userData);
 
       res.status(201).json({ data: signUpUserData, message: 'signup' });

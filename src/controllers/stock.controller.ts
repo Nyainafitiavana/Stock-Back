@@ -11,9 +11,20 @@ class StockController {
   public seuilSecurityService = new SeuilSecurityService
   public getAllStock = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllStockData: Stock[] = await this.stockService.findAllStock();
+      const limit: number = +req.query.limit;
+      const page: number = +req.query.page;
+      const offset: number = limit * (page - 1);
+      const findAllStockData: Stock[] = await this.stockService.findAllStock(limit, offset);
+      const findAllStock: Stock[] = await this.stockService.findAllStock(null, null);
+      const data = {
+        status: 200,
+        totalRows: findAllStock.length,
+        limit: limit,
+        page: page,
+        rows: findAllStockData,
+      }
 
-      res.status(200).json({ data: findAllStockData, message: 'findAll' });
+      res.status(200).json({ data, message: 'findAll' });
     } catch (error) {
       next(error);
     }
@@ -35,8 +46,15 @@ class StockController {
       const stockSeuil: seuilSecurity = await this.seuilSecurityService.findSeuilById();
       const findStock: Stock[] = await this.stockService.findStockProduitSeuil(stockSeuil.seuil);
 
+      const data = {
+        status: 200,
+        totalRows: findStock.length,
+        limit: null,
+        page: 1,
+        rows: findStock,
+      }
 
-      res.status(200).json({ data: findStock, message: 'findStock data success' });
+      res.status(200).json({ data, message: 'findStock data success' });
     } catch (error) {
       next(error);
     }

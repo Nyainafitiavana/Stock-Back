@@ -9,9 +9,22 @@ class RolesController {
 
   public getRoles = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllRolesData: Roles[] = await this.roleService.findAllRoles();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
+      const findAllRolesData: Roles[] = await this.roleService.findAllRoles(limit, offset);
+      const findAllRoles: Roles[] = await this.roleService.findAllRoles(null, null);
 
-      res.status(200).json({ data: findAllRolesData, message: 'get all roles success' });
+      const data = {
+        status: 200,
+        totalRows: findAllRoles.length,
+        limit: limit,
+        page: page,
+        rows: findAllRolesData,
+      }
+
+      res.status(200).json({ data, message: 'get all roles success' });
     } catch (error) {
       next(error);
     }
@@ -44,9 +57,15 @@ class RolesController {
   public findRoleById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const RoleId = Number(req.params.id);
-      const findRoleByIdData: Roles = await this.roleService.findRolesById(RoleId);
-
-      res.status(200).json({ data: findRoleByIdData, message: 'findRole data success' });
+      const findRoleByIdData: Roles[] = await this.roleService.findRolesById(RoleId);
+      const data = {
+        status: 200,
+        totalRows: findRoleByIdData.length,
+        limit: null,
+        page: 1,
+        rows: findRoleByIdData,
+      }
+      res.status(200).json({ data, message: 'findRole data success' });
     } catch (error) {
       next(error);
     }

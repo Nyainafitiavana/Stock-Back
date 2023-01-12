@@ -9,10 +9,11 @@ import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import { isEmpty } from '@utils/util';
+import { CreateUserSignUpDto } from '../dtos/users.dto';
 
 @EntityRepository()
 class AuthService extends Repository<UserEntity> {
-  public async signup(userData: CreateUserDto): Promise<User> {
+  public async signup(userData: CreateUserSignUpDto): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser: User = await UserEntity.findOne({ where: { email: userData.email } });

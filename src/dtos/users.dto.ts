@@ -30,3 +30,20 @@ export class CreateLoginDto {
   public password: string;
 
 }
+
+export class CreateUserSignUpDto {
+  @IsEmail()
+  public email: string;
+
+  @IsString()
+  public password: string;
+
+  @IsString()
+  public userName: string;
+
+  @IsString()
+  public telephone: string;
+
+  @IsString()
+  public adresse: string;
+}

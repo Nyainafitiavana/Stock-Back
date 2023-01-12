@@ -10,9 +10,21 @@ class TypeMouvementController {
 
   public getTypeMouvement = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllType: TypeMouvement[] = await this.typeMouvementService.findAllType();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
+      const findAllType: TypeMouvement[] = await this.typeMouvementService.findAllType(limit, offset);
+      
+      const rows = {
+        data: findAllType,
+        status: 200,
+        totalRows: findAllType.length,
+        limit: limit,
+        page: page
+      }
 
-      res.status(200).json({ data: findAllType, message: 'get all typeMouvement success' });
+      res.status(200).json({ rows, message: 'get all typeMouvement success' });
     } catch (error) {
       next(error);
     }
@@ -45,9 +57,17 @@ class TypeMouvementController {
   public findTypeMouvementById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const typeMouvementId = Number(req.params.id);
-      const findMouvementByIdData: TypeMouvement = await this.typeMouvementService.findTypeById(typeMouvementId);
+      const findMouvementByIdData: TypeMouvement[] = await this.typeMouvementService.findTypeById(typeMouvementId);
 
-      res.status(200).json({ data: findMouvementByIdData, message: 'findTypeMouvement data success' });
+      const rows = {
+        data: findMouvementByIdData,
+        status: 200,
+        totalRows: findMouvementByIdData.length,
+        limit: null,
+        page: null
+      }
+
+      res.status(200).json({ rows, message: 'findTypeMouvement data success' });
     } catch (error) {
       next(error);
     }

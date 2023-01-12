@@ -9,15 +9,15 @@ import { isEmpty } from '@utils/util';
 @EntityRepository()
 class CategoryService extends Repository<CategoryEntity> {
   //find all category
-  public async findAllCategory(): Promise<Category[]> {
-    const cats: Category[] = await CategoryEntity.find();
+  public async findAllCategory(limit: number, offset: number): Promise<Category[]> {
+    const cats: Category[] = await CategoryEntity.find({take: limit, skip: offset});
     return cats;
   }
 
-  public async findCategoryById(categoryId: number): Promise<Category> {
+  public async findCategoryById(categoryId: number): Promise<Category[]> {
     if (isEmpty(categoryId)) throw new HttpException(400, "You're not categoryId");
 
-    const findCategory: Category = await CategoryEntity.findOne({ where: { id: categoryId } });
+    const findCategory: Category[] = await CategoryEntity.find({ where: { id: categoryId }, take: 1 });
     if (!findCategory) throw new HttpException(409, "You're not category");
 
     return findCategory;

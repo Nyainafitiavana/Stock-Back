@@ -9,9 +9,22 @@ class CategoryController {
 
   public getCategory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllCategorysData: Category[] = await this.categoryService.findAllCategory();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
+      const findAllCategorysData: Category[] = await this.categoryService.findAllCategory(limit, offset);
+      const findAllCategorys: Category[] = await this.categoryService.findAllCategory(null, null);
 
-      res.status(200).json({ data: findAllCategorysData, message: 'get all category success' });
+      const data = {
+        status: 200,
+        totalRows: findAllCategorys.length,
+        limit: limit,
+        page: page,
+        rows: findAllCategorysData, 
+      }
+
+      res.status(200).json({ data, message: 'get all category success' });
     } catch (error) {
       next(error);
     }
@@ -44,9 +57,15 @@ class CategoryController {
   public findCategoryById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const CategoryId = Number(req.params.id);
-      const findCategoryByIdData: Category = await this.categoryService.findCategoryById(CategoryId);
-
-      res.status(200).json({ data: findCategoryByIdData, message: 'findCategory data success' });
+      const findCategoryByIdData: Category[] = await this.categoryService.findCategoryById(CategoryId);
+      const data: any = {
+        status: 200,
+        totalRows: findCategoryByIdData.length,
+        limit: null,
+        page: 1,
+        rows: findCategoryByIdData
+      }
+      res.status(200).json({ data, message: 'findCategory data success' });
     } catch (error) {
       next(error);
     }

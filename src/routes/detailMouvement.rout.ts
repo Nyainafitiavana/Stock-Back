@@ -6,7 +6,7 @@ import securityMiddleware from '@/middlewares/securityToken.middleware';
 import DetailMouvementController from '../controllers/detailMouvement.controller';
 
 class DetailMouvementRoute implements Routes {
-  public path = '/detailMouvements';
+  public path = '/api/detail-mouvements';
   public router = Router();
   public detailMouvementController = new DetailMouvementController();
 

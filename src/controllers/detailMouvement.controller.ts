@@ -12,13 +12,45 @@ class DetailMouvementController {
 
   public getAllDetail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findAllDetailMouvement();
+      const query = req.query;
+      const limit: number = +query.limit;
+      const page: number = +query.page;
+      const offset: number = limit * (page - 1);
+      const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findAllDetailMouvement(limit, offset);
+      const findAllDetailMouvements: DetailMouvement[] = await this.detaiService.findAllDetailMouvement(null, null);
 
-      res.status(200).json({ data: findAllDetailMouvementsData, message: 'findAll detail mouvement' });
+      const rows = {
+        data: findAllDetailMouvementsData,
+        status: 200,
+        totalRows: findAllDetailMouvements.length,
+        limit: limit,
+        page: page
+      }
+
+      res.status(200).json({ rows, message: 'findAll detail mouvement' });
     } catch (error) {
       next(error);
     }
   };
+
+  public getDetailById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const id:number = +req.params.id;
+      const findAllDetailMouvementsData: DetailMouvement[] = await this.detaiService.findByIdDetail(id);
+
+      const data = {
+        status: 200,
+        totalRows: findAllDetailMouvementsData.length,
+        limit: null,
+        page: 1,
+        rows: findAllDetailMouvementsData,
+      }
+
+      res.status(200).json({ data, message: 'findAll detail mouvement' });
+    } catch (error) {
+      next(error);
+    }
+  }
 
  
   

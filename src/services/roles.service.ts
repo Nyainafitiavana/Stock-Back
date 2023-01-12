@@ -9,15 +9,15 @@ import { isEmpty } from '@utils/util';
 @EntityRepository()
 class RolesService extends Repository<RoleEntity> {
   //find all roles
-  public async findAllRoles(): Promise<Roles[]> {
-    const roles: Roles[] = await RoleEntity.find();
+  public async findAllRoles(limit: number, offset: number): Promise<Roles[]> {
+    const roles: Roles[] = await RoleEntity.find({take: limit, skip: offset});
     return roles;
   }
 
-  public async findRolesById(roleId: number): Promise<Roles> {
+  public async findRolesById(roleId: number): Promise<Roles[]> {
     if (isEmpty(roleId)) throw new HttpException(400, "You're not categoryId");
 
-    const findRole: Roles = await RoleEntity.findOne({ where: { id: roleId } });
+    const findRole: Roles[] = await RoleEntity.find({ where: { id: roleId }, take: 1 });
     if (!findRole) throw new HttpException(409, "You're not role");
 
     return findRole;
